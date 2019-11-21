@@ -32,6 +32,7 @@ public class SplashSettingActivity extends Activity implements View.OnClickListe
         btnJumpToSplash.setOnClickListener(this);
 
         etPosId = findViewById(R.id.et_pos_id);
+        etPosId.setText(MobConstants.splash_id);
     }
 
     @Override

@@ -2,6 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mob.adsdk.sample">
+    <!-- SDK 相关声明 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 如果需要精确定位的话请加上此权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/> <!--穿山甲使用TextureView控件播放视频时必须添加此权限，否则黑屏-->
 
     <application
         android:name=".MyApplication"
@@ -13,18 +23,19 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".MainActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".BannerAdActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".InterstitialAdActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".SplashActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".NativeRecyclerListActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".NativeExpressAdActivity"
@@ -36,6 +47,10 @@
         <activity android:name=".DrawNativeVideoActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".SplashSettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".FeedAdSettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DrawAdSettingActivity"
             android:screenOrientation="portrait"/>
 
     </application>

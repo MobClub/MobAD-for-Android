@@ -4,4 +4,14 @@
     <string name="load_vertical_fullscreen_video">加载竖版全屏视频广告</string>
     <string name="load_horizontal_fullscreen_video">加载横版全屏视频广告</string>
 
+    <!--<string name="splash_id">1005308</string>
+    <string name="banner_id">1005313</string>
+    <string name="interstitial_id">1005301</string>
+    <string name="native_express_id">1005296</string>
+    <string name="native_feed_id">1005300</string>
+    <string name="reward_id">1005336</string>
+    <string name="full_video_id">1005337</string>
+    <string name="draw_video_id">1005338</string>-->
+
+
 </resources>

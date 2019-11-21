@@ -20,11 +20,15 @@ public class BannerAdActivity extends Activity implements View.OnClickListener, 
     private static final String TAG = "BannerADActivity";
 
     private BannerAdLoader bannerView;
+    private EditText etPosId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_banner_ad);
+        etPosId = findViewById(R.id.et_pos_id);
+        etPosId.setText(MobConstants.banner_id);
+
         Button bannerAD = findViewById(R.id.loadAd);
         bannerAD.setOnClickListener(this);
     }
@@ -33,7 +37,6 @@ public class BannerAdActivity extends Activity implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loadAd:
-                EditText etPosId = findViewById(R.id.et_pos_id);
                 String posId = etPosId.getText().toString();
                 if (!posId.isEmpty()){
                     bannerView = new BannerAdLoader(this,new MobADSize(MobADSize.FULL_WIDTH, MobADSize.AUTO_HEIGHT), posId, this);
@@ -70,7 +73,7 @@ public class BannerAdActivity extends Activity implements View.OnClickListener, 
     @Override
     public void onError(int code, String msg) {
         Log.d(TAG, "onError: 没有加载到广告");
-        Toast.makeText(this, " cdoe : " + code + "  msg : " + msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, " code : " + code + "  msg : " + msg, Toast.LENGTH_LONG).show();
     }
 
     @Override

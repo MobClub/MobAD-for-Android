@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import com.mob.adsdk.utils.MobAdLogger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 		checkAndRequestPermission();
 
+		MobAdLogger.debug(true);
 	}
 
 	@Override
@@ -47,7 +50,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				startActivity(new Intent(this, NativeExpressAdActivity.class));
 				break;
 			case R.id.feed_btn:
-				startActivity(new Intent(this, NativeRecyclerListActivity.class));
+//				startActivity(new Intent(this, NativeRecyclerListActivity.class));
+				startActivity(new Intent(this, FeedAdSettingActivity.class));
 				break;
 			case R.id.rewardvideo_btn:
 				startActivity(new Intent(this, RewardVideoAdActivity.class));
@@ -56,7 +60,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				startActivity(new Intent(this, FullScreenVideoActivity.class));
 				break;
 			case R.id.draw_btn:
-				startActivity(new Intent(this, DrawNativeVideoActivity.class));
+				startActivity(new Intent(this, DrawAdSettingActivity.class));
+//				startActivity(new Intent(this, DrawNativeVideoActivity.class));
 				break;
 		}
 	}

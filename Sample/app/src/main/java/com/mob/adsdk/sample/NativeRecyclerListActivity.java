@@ -2,7 +2,6 @@ package com.mob.adsdk.sample;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,9 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxStatus;
-import com.androidquery.callback.BitmapAjaxCallback;
+import com.bumptech.glide.Glide;
 import com.mob.adsdk.nativ.MobAdPatternType;
 import com.mob.adsdk.nativ.feeds.AdInteractionListener;
 import com.mob.adsdk.nativ.feeds.AdMediaListener;
@@ -44,7 +41,11 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_native_recycle_list);
 		initView();
-		nativeAdLoader = new NativeAdLoader(this, "1005300", this);//信息流
+		String posId = MobConstants.native_feed_id;
+		if (getIntent().getExtras()!=null) {
+			posId = getIntent().getExtras().getString("posId");
+		}
+		nativeAdLoader = new NativeAdLoader(this, posId, this);//信息流
 		nativeAdLoader.loadAd();
 	}
 
@@ -106,7 +107,7 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 
 	@Override
 	public void onAdError(int code, String msg) {
-		Toast.makeText(this, " cdoe : " + code + "  msg : " + msg, Toast.LENGTH_LONG).show();
+		Toast.makeText(this, " code : " + code + "  msg : " + msg, Toast.LENGTH_LONG).show();
 		this.mIsLoading = false;
 	}
 
@@ -140,7 +141,7 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 	private static final int TYPE_AD = 1;
 	private static final int TYPE_DATA = 0;
 
-	class CustomAdapter extends RecyclerView.Adapter<CustomHolder> {
+	public class CustomAdapter extends RecyclerView.Adapter<CustomHolder> {
 
 		private List<Object> mData;
 		private Context mContext;
@@ -200,7 +201,6 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 
 		private void initItemView(int position, final CustomHolder holder) {
 			final MobNativeAd ad = (MobNativeAd) mData.get(position);
-			AQuery logoAQ = holder.logoAQ;
 			String iconUrl = null;
 			if (!TextUtils.isEmpty(ad.getIconUrl())) {
 				iconUrl = ad.getIconUrl();
@@ -208,7 +208,7 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 				iconUrl = ad.getImgUrls().get(0);
 			}
 			if (!TextUtils.isEmpty(iconUrl)) {
-				logoAQ.id(R.id.img_logo).image(iconUrl, false, true);
+				setBitamap(holder.logo,iconUrl);
 			}
 			holder.name.setText(ad.getTitle());
 			holder.desc.setText(ad.getDesc());
@@ -222,53 +222,21 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 				ArrayList<String> imgs = ad.getImgUrls();
 				if (imgs != null && imgs.size() == 1) {
 					showPoster(holder);
-					logoAQ.id(R.id.img_poster).image(ad.getImgUrls().get(0), false, true, 0, 0,
-							new BitmapAjaxCallback() {
-								@Override
-								protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
-									if (iv.getVisibility() == View.VISIBLE) {
-										iv.setImageBitmap(bm);
-									}
-								}
-							});
+					setBitamap(holder.poster,ad.getImgUrls().get(0));
 				} else if (imgs != null && imgs.size() > 1) {
 					hideAll(holder);
 					if (imgs.size() > 0 && !TextUtils.isEmpty(imgs.get(0))) {
 						holder.img1.setVisibility(View.VISIBLE);
-						logoAQ.id(R.id.img_1).image(ad.getImgUrls().get(0), false, true, 0, 0,
-								new BitmapAjaxCallback() {
-									@Override
-									protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
-										if (iv.getVisibility() == View.VISIBLE) {
-											iv.setImageBitmap(bm);
-										}
-									}
-								});
+						setBitamap(holder.img1,ad.getImgUrls().get(0));
 
 					}
 					if (imgs.size() > 1 && !TextUtils.isEmpty(imgs.get(1))) {
 						holder.img2.setVisibility(View.VISIBLE);
-						logoAQ.id(R.id.img_2).image(ad.getImgUrls().get(1), false, true, 0, 0,
-								new BitmapAjaxCallback() {
-									@Override
-									protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
-										if (iv.getVisibility() == View.VISIBLE) {
-											iv.setImageBitmap(bm);
-										}
-									}
-								});
+						setBitamap(holder.img2,ad.getImgUrls().get(1));
 					}
 					if (imgs.size() > 2 && !TextUtils.isEmpty(imgs.get(2))) {
 						holder.img3.setVisibility(View.VISIBLE);
-						logoAQ.id(R.id.img_3).image(ad.getImgUrls().get(2), false, true, 0, 0,
-								new BitmapAjaxCallback() {
-									@Override
-									protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
-										if (iv.getVisibility() == View.VISIBLE) {
-											iv.setImageBitmap(bm);
-										}
-									}
-								});
+						setBitamap(holder.img3,ad.getImgUrls().get(2));
 					}
 				} else {
 
@@ -294,6 +262,12 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 
 			setAdListener(holder, ad);
 
+		}
+
+		private void setBitamap(ImageView view,String url){
+			Glide.with(mContext)
+					.load(url)
+					.into(view);
 		}
 
 		private void setAdListener(final CustomHolder holder, final MobNativeAd ad) {
@@ -378,7 +352,6 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 		public ImageView img3;
 		public Button download;
 		public ViewGroup container;
-		public AQuery logoAQ;
 
 		public CustomHolder(View itemView, int adType) {
 			super(itemView);
@@ -395,7 +368,6 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 					desc = itemView.findViewById(R.id.text_desc);
 					download = itemView.findViewById(R.id.btn_download);
 					container = itemView.findViewById(R.id.native_ad_container);
-					logoAQ = new AQuery(itemView);
 
 				case TYPE_DATA:
 					title = itemView.findViewById(R.id.title);

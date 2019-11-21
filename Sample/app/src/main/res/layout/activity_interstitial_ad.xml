@@ -32,7 +32,6 @@ tools:context=".InterstitialAdActivity">
     android:layout_height="wrap_content"
     android:layout_margin="24dp"
     android:layout_marginStart="8dp"
-    android:text="1005301"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toEndOf="@+id/tv_ad_id"
     app:layout_constraintTop_toBottomOf="@+id/container" />

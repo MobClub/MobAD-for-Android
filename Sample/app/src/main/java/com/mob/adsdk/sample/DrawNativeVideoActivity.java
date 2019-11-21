@@ -72,7 +72,11 @@ public class DrawNativeVideoActivity extends Activity implements DrawAdListener 
     }
 
     private void loadDrawNativeAd() {
-        DrawAdLoader drawAdLoader = new DrawAdLoader(this, "1005338", this);
+        String posId = MobConstants.draw_video_id;
+        if (getIntent().getExtras()!=null) {
+            posId = getIntent().getExtras().getString("posId");
+        }
+        DrawAdLoader drawAdLoader = new DrawAdLoader(this, posId, this);
         drawAdLoader.loadAd();
     }
 
@@ -267,7 +271,7 @@ public class DrawNativeVideoActivity extends Activity implements DrawAdListener 
 
     @Override
     public void onError(int code, String msg) {
-        Toast.makeText(this, " cdoe : " + code + "  msg : " + msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, " code : " + code + "  msg : " + msg, Toast.LENGTH_LONG).show();
     }
 
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {

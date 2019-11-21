@@ -37,7 +37,7 @@ public class NativeExpressAdActivity extends Activity implements View.OnClickLis
         loadAdBtn.setOnClickListener(this);
         loadAdBtn.setText("加载原生模板广告");
         etPosId = findViewById(R.id.et_pos_id);
-        etPosId.setText("1005296");
+        etPosId.setText(MobConstants.native_express_id);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class NativeExpressAdActivity extends Activity implements View.OnClickLis
     @Override
     public void onAdError(int code, String msg) {
         Log.d(TAG, "onError: 没有加载到广告");
-        Toast.makeText(this, " cdoe : " + code + "  msg : " + msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, " code : " + code + "  msg : " + msg, Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mob.adsdk.reward.MobRewardVideo;
+import com.mob.adsdk.reward.RewardOption;
 import com.mob.adsdk.reward.RewardVideoAdListener;
 import com.mob.adsdk.reward.RewardVideoAdLoader;
 
@@ -20,6 +22,11 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
     private static final String TAG = "RewardVideoAdActivity";
 
     private RewardVideoAdLoader rewardVideoAdLoader;
+    private EditText editText;
+    private Button btnChangeOrientation;
+    private int currentOrientation;
+    private boolean isAllowShow = true;
+    private MobRewardVideo rewardVideo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,30 +34,41 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
         setContentView(R.layout.activity_rewardvideo_ad);
         Button rewardAd = findViewById(R.id.loadRewardAd);
         rewardAd.setOnClickListener(this);
-        findViewById(R.id.changeOrientation).setOnClickListener(this);
-
-        rewardVideoAdLoader = new RewardVideoAdLoader(this, "1005336", this);
+        editText = findViewById(R.id.et_pos_id);
+        editText.setText(MobConstants.reward_id);
+        btnChangeOrientation = findViewById(R.id.changeOrientation);
+        btnChangeOrientation.setOnClickListener(this);
+        currentOrientation = getResources().getConfiguration().orientation;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.changeOrientation:
-                int currentOrientation = getResources().getConfiguration().orientation;
                 if (currentOrientation == ORIENTATION_PORTRAIT) {
+                    currentOrientation = ORIENTATION_LANDSCAPE;
+                    btnChangeOrientation.setText("当前是竖屏-切换横屏");
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 } else if (currentOrientation == ORIENTATION_LANDSCAPE) {
+                    currentOrientation = ORIENTATION_PORTRAIT;
+                    btnChangeOrientation.setText("当前是横屏-切换竖屏");
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 }
                 break;
             case R.id.loadRewardAd:
-                rewardVideoAdLoader.setOrientation(getResources().getConfiguration().orientation)// 设置期望视频播放的方向
-                        //必传参数，表来标识应用侧唯一用户；若非服务器回调模式或不需sdk透传
-                        //可设置为空字符串
-                        .setUserID("userid")
+				String posID = MobConstants.reward_id;
+				if (!editText.getText().toString().isEmpty()){
+					posID = editText.getText().toString();
+				}
+                RewardOption rewardOption = new RewardOption.Builder(this)
+                        .setOrientation(currentOrientation)
+                        .setSkipLongTime(true)
+                        .setUserId("userid")
                         .setRewardName("金币")//奖励的名称
-                        .setRewardAmount(3) //奖励的数量
-                        .loadAd();
+                        .setRewardAmount(3).build(); //奖励的数量
+                rewardVideoAdLoader = new RewardVideoAdLoader(this, posID, this,rewardOption);
+                rewardVideoAdLoader.loadAd();
+                Toast.makeText(this,"广告开始加载",Toast.LENGTH_LONG).show();
                 break;
         }
     }
@@ -58,12 +76,15 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
     @Override
     public void onVideoCached() {
         Log.d(TAG, "onVideoCached");
+        if (rewardVideo != null && isAllowShow){
+            rewardVideo.showAd();
+        }
     }
 
     @Override
     public void onAdLoad(MobRewardVideo rewardVideo) {
-        Log.d(TAG, "onAdLoad: 广告加载成功");
-		rewardVideo.showAd();
+        Log.d(TAG, "onAdLoad: 广告加载成功 ");
+        this.rewardVideo = rewardVideo;
     }
 
     @Override
@@ -94,7 +115,7 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
     @Override
     public void onAdError(int code, String msg) {
         Log.d(TAG, "onError: 没有加载到广告");
-        Toast.makeText(this, " cdoe : " + code + "  msg : " + msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, " code : " + code + "  msg : " + msg, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -102,4 +123,9 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
         Log.d(TAG, "onAdClick: 广告点击");
     }
 
+    @Override
+    protected void onDestroy() {
+        isAllowShow = false;
+        super.onDestroy();
+    }
 }

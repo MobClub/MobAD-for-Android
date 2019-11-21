@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mob.adsdk.fullscreen.FullScreenAd;
@@ -13,12 +14,15 @@ import com.mob.adsdk.fullscreen.FullScreenAdLoader;
 public class FullScreenVideoActivity extends Activity implements View.OnClickListener, FullScreenAdListener {
 
     private FullScreenAd fullScreenAd;
+    private EditText editText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen_video);
         initClickEvent();
+        editText = findViewById(R.id.et_pos_id);
+        editText.setText(MobConstants.full_video_id);
     }
 
     private void initClickEvent(){
@@ -33,12 +37,12 @@ public class FullScreenVideoActivity extends Activity implements View.OnClickLis
         switch (v.getId()){
             case R.id.btn_reward_load:
                 Toast.makeText(this,"横屏广告加载",Toast.LENGTH_SHORT).show();
-                fullScreenAdLoader = new FullScreenAdLoader(this,"1005337",this,FullScreenAdLoader.HORIZONTAL);
+                fullScreenAdLoader = new FullScreenAdLoader(this,getPosId(),this,FullScreenAdLoader.HORIZONTAL);
                 fullScreenAdLoader.loadAd();
                 break;
             case R.id.btn_reward_load_vertical:
                 Toast.makeText(this,"竖屏广告加载",Toast.LENGTH_SHORT).show();
-                fullScreenAdLoader = new FullScreenAdLoader(this,"1005337",this,FullScreenAdLoader.VERTICAL);
+                fullScreenAdLoader = new FullScreenAdLoader(this,getPosId(),this,FullScreenAdLoader.VERTICAL);
                 fullScreenAdLoader.loadAd();
                 break;
             case R.id.btn_reward_show:
@@ -49,6 +53,14 @@ public class FullScreenVideoActivity extends Activity implements View.OnClickLis
                     fullScreenAd = null;
                 }
                 break;
+        }
+    }
+
+    private String getPosId(){
+        if (editText.getText().toString().isEmpty()){
+            return editText.getText().toString();
+        }else {
+            return MobConstants.full_video_id;
         }
     }
 
@@ -85,6 +97,6 @@ public class FullScreenVideoActivity extends Activity implements View.OnClickLis
 
     @Override
     public void onError(int code, String msg) {
-        Toast.makeText(this, " cdoe : " + code + "  msg : " + msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, " code : " + code + "  msg : " + msg, Toast.LENGTH_LONG).show();
     }
 }
