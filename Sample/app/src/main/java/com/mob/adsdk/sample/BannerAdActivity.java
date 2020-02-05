@@ -21,6 +21,7 @@ public class BannerAdActivity extends Activity implements View.OnClickListener, 
 
     private BannerAdLoader bannerView;
     private EditText etPosId;
+    private boolean loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +40,17 @@ public class BannerAdActivity extends Activity implements View.OnClickListener, 
             case R.id.loadAd:
                 String posId = etPosId.getText().toString();
                 if (!posId.isEmpty()){
+                    if (this.bannerView != null) { //加载之前先销毁之前的视图
+                        this.bannerView.destroy();
+                    }
+                    //回调结果返回前不要重复loadAd
+                    if (loading) {
+                        Toast.makeText(this, "正在加载广告，不要急!", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     bannerView = new BannerAdLoader(this,new MobADSize(MobADSize.FULL_WIDTH, MobADSize.AUTO_HEIGHT), posId, this);
                     bannerView.loadAd();
+                    loading = true;
                 }else {
                     Toast.makeText(this, "posId 为空", Toast.LENGTH_LONG).show();
                 }
@@ -58,6 +68,7 @@ public class BannerAdActivity extends Activity implements View.OnClickListener, 
                 Log.d(TAG, "onAdClicked: 广告被点击");
             }
         });
+        loading = false;
     }
 
     @Override
@@ -74,6 +85,7 @@ public class BannerAdActivity extends Activity implements View.OnClickListener, 
     public void onError(int code, String msg) {
         Log.d(TAG, "onError: 没有加载到广告");
         Toast.makeText(this, " code : " + code + "  msg : " + msg, Toast.LENGTH_LONG).show();
+        loading = false;
     }
 
     @Override

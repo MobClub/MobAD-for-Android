@@ -3,6 +3,7 @@ package com.mob.adsdk.sample;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,8 @@ import com.mob.adsdk.reward.MobRewardVideo;
 import com.mob.adsdk.reward.RewardOption;
 import com.mob.adsdk.reward.RewardVideoAdListener;
 import com.mob.adsdk.reward.RewardVideoAdLoader;
+
+import java.util.Date;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
@@ -25,7 +28,6 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
     private EditText editText;
     private Button btnChangeOrientation;
     private int currentOrientation;
-    private boolean isAllowShow = true;
     private MobRewardVideo rewardVideo;
 
     @Override
@@ -33,7 +35,9 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rewardvideo_ad);
         Button rewardAd = findViewById(R.id.loadRewardAd);
+        Button showAD = findViewById(R.id.showRewardAd);
         rewardAd.setOnClickListener(this);
+        showAD.setOnClickListener(this);
         editText = findViewById(R.id.et_pos_id);
         editText.setText(MobConstants.reward_id);
         btnChangeOrientation = findViewById(R.id.changeOrientation);
@@ -56,19 +60,33 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
                 }
                 break;
             case R.id.loadRewardAd:
-				String posID = MobConstants.reward_id;
-				if (!editText.getText().toString().isEmpty()){
-					posID = editText.getText().toString();
-				}
+                String posID = MobConstants.reward_id;
+                if (!editText.getText().toString().isEmpty()){
+                    posID = editText.getText().toString();
+                }
                 RewardOption rewardOption = new RewardOption.Builder(this)
                         .setOrientation(currentOrientation)
                         .setSkipLongTime(true)
                         .setUserId("userid")
                         .setRewardName("金币")//奖励的名称
                         .setRewardAmount(3).build(); //奖励的数量
-                rewardVideoAdLoader = new RewardVideoAdLoader(this, posID, this,rewardOption);
+                if (rewardVideoAdLoader == null) {
+                    rewardVideoAdLoader = new RewardVideoAdLoader(this, posID, this, rewardOption);
+                }
                 rewardVideoAdLoader.loadAd();
                 Toast.makeText(this,"广告开始加载",Toast.LENGTH_LONG).show();
+                break;
+            case R.id.showRewardAd:
+                if (rewardVideo!=null){
+                    Log.d(TAG, "rewardVideo.hasShown="+rewardVideo.hasShown());
+                    if (rewardVideo.hasShown()){
+                        Toast.makeText(this, "该条广告已经展示，请重新请求", Toast.LENGTH_LONG).show();
+                    }else if (rewardVideo.getExpireTimestamp() > 0 && SystemClock.elapsedRealtime() > rewardVideo.getExpireTimestamp()){
+                        Toast.makeText(this, "该条广告已经过期，请重新请求", Toast.LENGTH_LONG).show();
+                    }else {
+                        rewardVideo.showAd();
+                    }
+                }
                 break;
         }
     }
@@ -76,15 +94,18 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
     @Override
     public void onVideoCached() {
         Log.d(TAG, "onVideoCached");
-        if (rewardVideo != null && isAllowShow){
-            rewardVideo.showAd();
-        }
+        Toast.makeText(this, "onVideoCached: 广告素材缓存成功 ", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onAdLoad(MobRewardVideo rewardVideo) {
-        Log.d(TAG, "onAdLoad: 广告加载成功 ");
         this.rewardVideo = rewardVideo;
+//        rewardVideo.showAd();
+        if (rewardVideo.getExpireTimestamp()>0) {
+            Log.d(TAG, "onAdLoad: 广告加载成功 expireTime = " + (System.currentTimeMillis() + rewardVideo.getExpireTimestamp() - SystemClock.elapsedRealtime()));
+        }else {
+            Log.d(TAG, "onAdLoad: 广告加载成功");
+        }
     }
 
     @Override
@@ -125,7 +146,7 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
 
     @Override
     protected void onDestroy() {
-        isAllowShow = false;
+        rewardVideo = null;
         super.onDestroy();
     }
 }

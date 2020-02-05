@@ -96,4 +96,9 @@
 -keep class com.pgl.sys.ces.* {*;}
 -keep public interface com.bytedance.sdk.openadsdk.downloadnew.** {*;}
 -keep class com.ss.** {*;}
+
+-keep class com.kwad.sdk.** { *;}
+-keep class com.ksad.download.** { *;}
+-keep class com.kwai.filedownloader.** { *;}
+
 -keep class com.mob.**{*;}

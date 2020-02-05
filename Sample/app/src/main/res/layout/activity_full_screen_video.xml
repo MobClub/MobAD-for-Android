@@ -22,12 +22,14 @@
 
     </LinearLayout>
     <Button
+        android:layout_marginTop="24dp"
         android:id="@+id/btn_reward_load"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:text="@string/load_horizontal_fullscreen_video" />
     <Button
+        android:layout_marginTop="24dp"
         android:id="@+id/btn_reward_load_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +39,7 @@
         android:id="@+id/btn_reward_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="24dp"
         android:textSize="14sp"
         android:text="@string/show_fullscreen_video" />
 

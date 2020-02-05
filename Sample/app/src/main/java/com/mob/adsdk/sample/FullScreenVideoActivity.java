@@ -57,7 +57,7 @@ public class FullScreenVideoActivity extends Activity implements View.OnClickLis
     }
 
     private String getPosId(){
-        if (editText.getText().toString().isEmpty()){
+        if (!editText.getText().toString().isEmpty()){
             return editText.getText().toString();
         }else {
             return MobConstants.full_video_id;

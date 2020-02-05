@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import com.mob.adsdk.nativ.feeds.NativeAdLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.TreeSet;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
@@ -45,7 +47,7 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 		if (getIntent().getExtras()!=null) {
 			posId = getIntent().getExtras().getString("posId");
 		}
-		nativeAdLoader = new NativeAdLoader(this, posId, this);//信息流
+		nativeAdLoader = new NativeAdLoader(this, posId, this,new FrameLayout.LayoutParams(0,0));//信息流
 		nativeAdLoader.loadAd();
 	}
 
@@ -201,6 +203,11 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 
 		private void initItemView(int position, final CustomHolder holder) {
 			final MobNativeAd ad = (MobNativeAd) mData.get(position);
+			if (position%2 == 0) {
+				ad.setVideoMute(true);
+			}else {
+				ad.setVideoMute(false);
+			}
 			String iconUrl = null;
 			if (!TextUtils.isEmpty(ad.getIconUrl())) {
 				iconUrl = ad.getIconUrl();

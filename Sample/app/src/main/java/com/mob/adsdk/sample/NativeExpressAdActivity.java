@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mob.adsdk.nativ.express.ExpressAdInteractionListener;
+import com.mob.adsdk.nativ.express.ExpressAdMediaListener;
 import com.mob.adsdk.nativ.express.ExpressAdPadding;
 import com.mob.adsdk.nativ.express.MobADSize;
 import com.mob.adsdk.nativ.express.NativeExpressAd;
@@ -25,18 +27,18 @@ public class NativeExpressAdActivity extends Activity implements View.OnClickLis
     private NativeExpressAd expressAd;
     private EditText etPosId;
     private EditText etPadding;
+    private CheckBox cbMute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_banner_ad);
+        setContentView(R.layout.activity_express_ad);
         Button loadAdBtn = findViewById(R.id.loadAd);
-        findViewById(R.id.tv_padding).setVisibility(View.VISIBLE);
         etPadding = findViewById(R.id.et_padding);
-        etPadding.setVisibility(View.VISIBLE);
         loadAdBtn.setOnClickListener(this);
         loadAdBtn.setText("加载原生模板广告");
         etPosId = findViewById(R.id.et_pos_id);
+        cbMute = findViewById(R.id.cb_mute);
         etPosId.setText(MobConstants.native_express_id);
     }
 
@@ -47,11 +49,16 @@ public class NativeExpressAdActivity extends Activity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.loadAd:
                 if (TextUtils.isEmpty(padding)) {
-                    expressAdLoader = new NativeExpressAdLoader(this, new MobADSize(350, MobADSize.AUTO_HEIGHT),
-                            posId, this);
+                    if (cbMute.isChecked()){
+                        expressAdLoader = new NativeExpressAdLoader(this, new MobADSize(350, MobADSize.AUTO_HEIGHT),
+                                new ExpressAdPadding(0), posId, this,cbMute.isChecked());
+                    }else {
+                        expressAdLoader = new NativeExpressAdLoader(this, new MobADSize(350, MobADSize.AUTO_HEIGHT),
+                                posId, this);
+                    }
                 } else {
                     expressAdLoader = new NativeExpressAdLoader(this, new MobADSize(350, MobADSize.AUTO_HEIGHT),
-                            new ExpressAdPadding(Integer.valueOf(padding)), posId, this);
+                            new ExpressAdPadding(Integer.valueOf(padding)), posId, this,cbMute.isChecked());
                 }
                 expressAdLoader.loadAd();
                 break;
@@ -64,12 +71,46 @@ public class NativeExpressAdActivity extends Activity implements View.OnClickLis
             this.expressAd.destroy();
         }
         this.expressAd = expressAd;
+        //在加入视图时必须调用render()方法，否则不进行展示和曝光上报
+        this.expressAd.render();
         ((ViewGroup) findViewById(R.id.container)).removeAllViews();
         ((ViewGroup) findViewById(R.id.container)).addView(expressAd.getExpressAdView());
         expressAd.setInteractionListener(new ExpressAdInteractionListener() {
             @Override
             public void onAdClicked() {
                 Log.d(TAG, "onAdClicked: 广告被点击");
+            }
+        });
+        expressAd.setExpressAdMediaListener(new ExpressAdMediaListener() {
+            @Override
+            public void onVideoLoaded() {
+                Log.d(TAG, "onVideo: onVideoLoaded");
+            }
+
+            @Override
+            public void onVideoStart() {
+                Log.d(TAG, "onVideo: onVideoStart");
+            }
+
+            @Override
+            public void onVideoPause() {
+                Log.d(TAG, "onVideo: onVideoPause");
+            }
+
+            @Override
+            public void onVideoResume() {
+                Log.d(TAG, "onVideo: onVideoResume");
+            }
+
+            @Override
+            public void onVideoError(int code, String msg) {
+                Log.d(TAG, "onVideo: onVideoError");
+                Toast.makeText(NativeExpressAdActivity.this, " code : " + code + "  msg : " + msg, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onVideoCompleted() {
+                Log.d(TAG, "onVideo: onVideoCompleted");
             }
         });
     }
