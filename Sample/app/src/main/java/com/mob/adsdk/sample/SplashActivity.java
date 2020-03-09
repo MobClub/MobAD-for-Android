@@ -9,22 +9,30 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mob.adsdk.sample.utils.SPUtils;
 import com.mob.adsdk.splash.SplashAd;
 import com.mob.adsdk.splash.SplashAdListener;
 import com.mob.adsdk.splash.SplashAdLoader;
 import com.mob.adsdk.splash.SplashInteractionListener;
 
 
-public class SplashActivity extends Activity implements SplashAdListener {
+public class SplashActivity extends Activity implements SplashAdListener, View.OnClickListener {
     private static final String TAG = "SplashActivity";
     private ViewGroup adContainer;
     private TextView tvSkip;
     private TextView tvPld;
     public boolean canJump = false;
     private boolean needStartDemoList;
+    private boolean fetchOnly;
+
+    private Button btnFinish,btnShowAD,btnRefresh;
+    private SplashAd splashAd;
+    private SplashAdLoader splashAD;
+    private ViewGroup btnGroup;
 
     /**
      * 为防止无广告时造成视觉上类似于"闪退"的情况，设定无广告时页面跳转根据需要延迟一定时间，demo
@@ -43,13 +51,22 @@ public class SplashActivity extends Activity implements SplashAdListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        Log.e("020202","onCreate");
         adContainer = findViewById(R.id.splash_container);
         tvPld = findViewById(R.id.tv_pld);
 		tvSkip = findViewById(R.id.tv_skip);
+        btnFinish = findViewById(R.id.btn_finish);
+        btnGroup = findViewById(R.id.group);
+        btnShowAD = findViewById(R.id.btn_showad);
+        btnRefresh = findViewById(R.id.btn_refresh);
+        btnFinish.setOnClickListener(this);
+        btnShowAD.setOnClickListener(this);
+        btnRefresh.setOnClickListener(this);
         if (getIntent().getExtras()!=null && getIntent().getExtras().getString("posId") != null){
             String posId = getIntent().getExtras().getString("posId");
             boolean customSkip = getIntent().getExtras().getBoolean("customSkip");
             boolean customBottom = getIntent().getExtras().getBoolean("customBottom");
+            fetchOnly = getIntent().getExtras().getBoolean("fetchOnly",false);
             if (customBottom){
                 tvPld.setVisibility(View.VISIBLE);
             }
@@ -67,14 +84,37 @@ public class SplashActivity extends Activity implements SplashAdListener {
     }
 
     private void fetchSplashAD(Activity activity, ViewGroup adContainer,View skipView, String posId, SplashAdListener adListener, int fetchDelay) {
+        if (!SPUtils.isContains(this, SPUtils.PRIVACY_POLICY_KEY) && getIntent().getExtras() == null) {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (needStartDemoList) {
+                        SplashActivity.this.startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    }
+                    Toast.makeText(SplashActivity.this, "服务授权后才能正常使用", Toast.LENGTH_SHORT).show();
+                    SplashActivity.this.finish();
+                }
+            }, 200);
+            return;
+        }
         fetchSplashADTime = System.currentTimeMillis();
-        SplashAdLoader splashAD = new SplashAdLoader(activity, adContainer,skipView, posId, adListener, fetchDelay);
-        splashAD.loadAd();
+        splashAD = new SplashAdLoader(activity, adContainer,skipView, posId, adListener, fetchDelay);
+        if (fetchOnly){
+            splashAD.fetchOnly();
+        }else {
+            splashAD.loadAd();
+        }
     }
 
+
     @Override
-    public void onLoaded(SplashAd bannerAd) {
-        bannerAd.setInteractionListener(new SplashInteractionListener() {
+    public void onLoaded(SplashAd splashAd) {
+        this.splashAd = splashAd;
+        Toast.makeText(this, "开屏广告已经加载", Toast.LENGTH_LONG).show();
+        if (btnGroup!=null){
+            btnGroup.setVisibility(View.VISIBLE);
+        }
+        splashAd.setInteractionListener(new SplashInteractionListener() {
             @Override
             public void onAdClicked() {
                 Log.d(TAG, "onAdClicked: 开屏广告被点击");
@@ -84,12 +124,16 @@ public class SplashActivity extends Activity implements SplashAdListener {
 
     @Override
     public void onAdExposure() {
+        if (btnGroup!=null){
+            btnGroup.setVisibility(View.GONE);
+        }
         Log.d(TAG, "onAdExposure: 开屏广告曝光");
     }
 
     @Override
     public void onAdClosed() {
         Log.d(TAG, "onAdClosed: 开屏广告被关闭");
+        Toast.makeText(this, "开屏广告被关闭", Toast.LENGTH_LONG).show();
         next();
     }
 
@@ -161,5 +205,26 @@ public class SplashActivity extends Activity implements SplashAdListener {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_finish:
+                finish();
+                break;
+            case R.id.btn_showad:
+                if (splashAd != null){
+                    splashAd.showAd();
+                }
+                break;
+            case R.id.btn_refresh:
+                if (splashAD != null){
+                    splashAD.fetchOnly();
+                }
+                break;
+            default:
+                    break;
+        }
     }
 }

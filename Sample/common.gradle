@@ -8,6 +8,7 @@ MobSDK {
              GDT {}
              CSJ {}
              KS {}
+             BD {}
         }
     }
 }

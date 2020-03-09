@@ -28,6 +28,7 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
     private EditText editText;
     private Button btnChangeOrientation;
     private int currentOrientation;
+    private boolean isAllowShow = false;
     private MobRewardVideo rewardVideo;
 
     @Override
@@ -60,10 +61,10 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
                 }
                 break;
             case R.id.loadRewardAd:
-                String posID = MobConstants.reward_id;
-                if (!editText.getText().toString().isEmpty()){
-                    posID = editText.getText().toString();
-                }
+				String posID = MobConstants.reward_id;
+				if (!editText.getText().toString().isEmpty()){
+					posID = editText.getText().toString();
+				}
                 RewardOption rewardOption = new RewardOption.Builder(this)
                         .setOrientation(currentOrientation)
                         .setSkipLongTime(true)
@@ -83,6 +84,7 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
                         Toast.makeText(this, "该条广告已经展示，请重新请求", Toast.LENGTH_LONG).show();
                     }else if (rewardVideo.getExpireTimestamp() > 0 && SystemClock.elapsedRealtime() > rewardVideo.getExpireTimestamp()){
                         Toast.makeText(this, "该条广告已经过期，请重新请求", Toast.LENGTH_LONG).show();
+                        rewardVideo.showAd();
                     }else {
                         rewardVideo.showAd();
                     }
@@ -94,6 +96,7 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
     @Override
     public void onVideoCached() {
         Log.d(TAG, "onVideoCached");
+        isAllowShow = true;
         Toast.makeText(this, "onVideoCached: 广告素材缓存成功 ", Toast.LENGTH_LONG).show();
     }
 
@@ -146,7 +149,7 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
 
     @Override
     protected void onDestroy() {
-        rewardVideo = null;
+        isAllowShow = false;
         super.onDestroy();
     }
 }

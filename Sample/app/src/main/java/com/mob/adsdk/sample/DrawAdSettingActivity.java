@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-
+/**
+ * DrawAd类型暂不开放支持，详情请咨询商务。
+ **/
 public class DrawAdSettingActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "DrawAdSettingActivity";
 

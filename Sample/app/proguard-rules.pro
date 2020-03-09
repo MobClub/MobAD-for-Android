@@ -4,6 +4,8 @@
 -dontskipnonpubliclibraryclassmembers       # 指定不去忽略包可见的库类的成员
 -dontpreverify      # 混淆时是否做预校验
 -verbose        # 混淆时是否记录日志
+
+-ignorewarnings
 #-printmapping proguardMapping.txt
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
 -keepattributes SourceFile,LineNumberTable,Exceptions,InnerClasses,Signature,Deprecated,EnclosingMethod,*Annotation*
@@ -102,3 +104,6 @@
 -keep class com.kwai.filedownloader.** { *;}
 
 -keep class com.mob.**{*;}
+
+-keep class com.baidu.mobads.** { *; }
+-keep class com.baidu.mobad.** { *; }

@@ -76,6 +76,7 @@ public class InterstitialAdActivity extends Activity implements View.OnClickList
                         }
                     });
                     interstitialAD.loadAd();
+                    Toast.makeText(this, "请求广告", Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(this, "posId 为空", Toast.LENGTH_LONG).show();
                 }

@@ -31,17 +31,27 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="预加载广告"
-        android:layout_margin="48dp"
+        android:layout_margin="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_pos_id" />
+
+<!--    <Button-->
+<!--        android:id="@+id/btn_fetch_only"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="只拉取不展示"-->
+<!--        android:layout_margin="32dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btn_preload" />-->
 
     <Button
         android:id="@+id/btn_jumptosplash"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="打开开屏页"
-        android:layout_margin="48dp"
+        android:layout_margin="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_preload" />
@@ -51,7 +61,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="打开自定义跳过按钮开屏页"
-        android:layout_margin="48dp"
+        android:layout_margin="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_jumptosplash" />
@@ -61,7 +71,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="有底部的开屏页"
-        android:layout_margin="48dp"
+        android:layout_margin="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_jumptosplashforskip" />

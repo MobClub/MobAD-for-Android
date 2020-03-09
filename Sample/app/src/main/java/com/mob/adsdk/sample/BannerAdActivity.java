@@ -22,6 +22,7 @@ public class BannerAdActivity extends Activity implements View.OnClickListener, 
     private BannerAdLoader bannerView;
     private EditText etPosId;
     private boolean loading;
+    private ViewGroup adContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class BannerAdActivity extends Activity implements View.OnClickListener, 
         setContentView(R.layout.activity_banner_ad);
         etPosId = findViewById(R.id.et_pos_id);
         etPosId.setText(MobConstants.banner_id);
+        adContainer = findViewById(R.id.container);
 
         Button bannerAD = findViewById(R.id.loadAd);
         bannerAD.setOnClickListener(this);
@@ -48,9 +50,9 @@ public class BannerAdActivity extends Activity implements View.OnClickListener, 
                         Toast.makeText(this, "正在加载广告，不要急!", Toast.LENGTH_LONG).show();
                         return;
                     }
-                    bannerView = new BannerAdLoader(this,new MobADSize(MobADSize.FULL_WIDTH, MobADSize.AUTO_HEIGHT), posId, this);
-                    bannerView.loadAd();
                     loading = true;
+                    bannerView = new BannerAdLoader(this,adContainer,new MobADSize(MobADSize.FULL_WIDTH, MobADSize.AUTO_HEIGHT), posId, this);
+                    bannerView.loadAd();
                 }else {
                     Toast.makeText(this, "posId 为空", Toast.LENGTH_LONG).show();
                 }
@@ -60,8 +62,8 @@ public class BannerAdActivity extends Activity implements View.OnClickListener, 
 
     @Override
     public void onLoaded(BannerAd bannerAd) {
-        ((ViewGroup) findViewById(R.id.container)).removeAllViews();
-        ((ViewGroup) findViewById(R.id.container)).addView(bannerAd.getAdView());
+        adContainer.removeAllViews();
+        adContainer.addView(bannerAd.getAdView());
         bannerAd.setInteractionListener(new BannerInteractionListener() {
             @Override
             public void onAdClicked() {
