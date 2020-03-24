@@ -49,19 +49,18 @@
         android:layout_marginBottom="10dp"
         android:text="激励视频广告" />
 
-    <!--   全屏广告,draw 类型暂不开放支持，详情请咨询商务。   -->
-<!--    <Button-->
-<!--        android:id="@+id/full_screen_btn"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginBottom="10dp"-->
-<!--        android:text="全屏video" />-->
+    <Button
+        android:id="@+id/full_screen_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="全屏video" />
 
-<!--    <Button-->
-<!--        android:id="@+id/draw_btn"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginBottom="10dp"-->
-<!--        android:text="Draw" />-->
+    <Button
+        android:id="@+id/draw_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Draw" />
 
 </LinearLayout>

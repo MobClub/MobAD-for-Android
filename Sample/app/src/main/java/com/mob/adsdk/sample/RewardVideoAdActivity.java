@@ -15,8 +15,6 @@ import com.mob.adsdk.reward.RewardOption;
 import com.mob.adsdk.reward.RewardVideoAdListener;
 import com.mob.adsdk.reward.RewardVideoAdLoader;
 
-import java.util.Date;
-
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 

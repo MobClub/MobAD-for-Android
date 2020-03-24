@@ -15,8 +15,8 @@ public class SplashSettingActivity extends Activity implements View.OnClickListe
     private Button btnJumpToSplashForSkip;
     private Button btnPreload;
     private Button btnJumpToSplashForBottom;
-//    private Button btnJumpToSplashForFetchOnly; //暂不支持
     private EditText etPosId;
+    private Button btnJumpToSplashForFetchOnly;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +27,8 @@ public class SplashSettingActivity extends Activity implements View.OnClickListe
         btnJumpToSplashForSkip = findViewById(R.id.btn_jumptosplashforskip);
         btnPreload = findViewById(R.id.btn_preload);
         btnJumpToSplashForBottom = findViewById(R.id.btn_jumptosplashforbottom);
-//        btnJumpToSplashForFetchOnly = findViewById(R.id.btn_fetch_only);
-//        btnJumpToSplashForFetchOnly.setOnClickListener(this);
+        btnJumpToSplashForFetchOnly = findViewById(R.id.btn_fetch_only);
+        btnJumpToSplashForFetchOnly.setOnClickListener(this);
         btnPreload.setOnClickListener(this);
         btnJumpToSplashForBottom.setOnClickListener(this);
         btnJumpToSplashForSkip.setOnClickListener(this);
@@ -55,12 +55,13 @@ public class SplashSettingActivity extends Activity implements View.OnClickListe
             case R.id.btn_preload:
                 preLoad();
                 break;
-//            case R.id.btn_fetch_only:
-//                intent.putExtra("customBottom", false);
-//                intent.putExtra("fetchOnly", true);
-//                startActivity(intent);
-//                break;
+            case R.id.btn_fetch_only:
+                intent.putExtra("customBottom", false);
+                intent.putExtra("fetchOnly", true);
+                startActivity(intent);
+                break;
             case R.id.btn_jumptosplashforbottom:
+                intent.putExtra("customSkip", false);
                 intent.putExtra("customBottom", true);
                 startActivity(intent);
                 break;

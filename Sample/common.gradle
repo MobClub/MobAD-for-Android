@@ -5,10 +5,10 @@ MobSDK {
     appSecret "234b0028a97be15e1650550f338c4a50"
     MobAdSDK {
         devInfo {
-             GDT {}
-             CSJ {}
-             KS {}
-             BD {}
+            GDT {}
+            CSJ {}
+			KS {}
+			BD {}
         }
     }
 }

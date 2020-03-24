@@ -29,7 +29,6 @@ import com.mob.adsdk.nativ.feeds.NativeAdLoader;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.TreeSet;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;

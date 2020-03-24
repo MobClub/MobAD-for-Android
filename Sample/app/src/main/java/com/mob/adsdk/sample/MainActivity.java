@@ -8,20 +8,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.mob.MobSDK;
-import com.mob.OperationCallback;
-import com.mob.PrivacyPolicy;
 import com.mob.adsdk.MobAdSdk;
 import com.mob.adsdk.sample.utils.SPUtils;
 import com.mob.adsdk.utils.MobAdLogger;
-import com.mob.tools.utils.UIHandler;
+import com.mob.adsdk.widget.GrantCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +35,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		findViewById(R.id.feed_btn).setOnClickListener(this);
 		findViewById(R.id.native_express_ad).setOnClickListener(this);
 		findViewById(R.id.rewardvideo_btn).setOnClickListener(this);
-//		findViewById(R.id.full_screen_btn).setOnClickListener(this);
-//		findViewById(R.id.draw_btn).setOnClickListener(this);
+		findViewById(R.id.full_screen_btn).setOnClickListener(this);
+		findViewById(R.id.draw_btn).setOnClickListener(this);
 
 		//此处开关由开发者自行决定
 		if (SPUtils.getBoolean(this, SPUtils.PRIVACY_POLICY_KEY, false)) {
@@ -50,6 +45,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			privacyDialog();
 		}
 		MobAdLogger.debug(true);
+
 	}
 
 	//隐私服务授权弹窗
@@ -62,7 +58,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		b.setPositiveButton("同意", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialogInterface, int i) {
-				submitPrivacyGrantResult(true);//同意授权后同步授权信息到MobSDK
+				submitPrivacyGrantResult(true);//同意授权后同步授权信息到MobAdSDK
 				SPUtils.putBoolean(MainActivity.this, SPUtils.PRIVACY_POLICY_KEY, true);
 			}
 		});
@@ -75,44 +71,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				Toast.makeText(MainActivity.this, "服务授权后才能正常使用", Toast.LENGTH_LONG).show();
 			}
 		});
-		UIHandler.sendEmptyMessage(0, new Handler.Callback() {
-			@Override
-			public boolean handleMessage(Message msg) {
-				b.create();
-				b.show();
-				return false;
-			}
-		});
+		b.create();
+		b.show();
 	}
 
 	private void submitPrivacyGrantResult(final boolean granted) {
-		MobAdSdk.submitPrivacyGrantResult(granted, new OperationCallback<Void>() {
+		MobAdSdk.submitPrivacyGrantResult(granted, new GrantCallback<Void>() {
 			@Override
 			public void onComplete(Void data) {
 				Log.d(TAG, "隐私协议授权结果提交：成功");
-				UIHandler.sendEmptyMessage(0, new Handler.Callback() {
-					@Override
-					public boolean handleMessage(Message msg) {
-						if (granted) {
-							checkAndRequestPermission();
-						} else {
-							Toast.makeText(MainActivity.this, "服务授权后才能正常使用", Toast.LENGTH_LONG).show();
-						}
-						return false;
-					}
-				});
+				if (granted) {
+					checkAndRequestPermission();
+				} else {
+					Toast.makeText(MainActivity.this, "服务授权后才能正常使用", Toast.LENGTH_LONG).show();
+				}
 			}
 
 			@Override
 			public void onFailure(Throwable t) {
 				Log.d(TAG, "隐私协议授权结果提交：失败");
-				UIHandler.sendEmptyMessage(0, new Handler.Callback() {
-					@Override
-					public boolean handleMessage(Message msg) {
-						Toast.makeText(MainActivity.this, "服务授权后才能正常使用", Toast.LENGTH_LONG).show();
-						return false;
-					}
-				});
 				Toast.makeText(MainActivity.this, "服务授权后才能正常使用", Toast.LENGTH_LONG).show();
 			}
 		});
@@ -140,13 +117,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			case R.id.rewardvideo_btn:
 				startActivity(new Intent(this, RewardVideoAdActivity.class));
 				break;
-//			case R.id.full_screen_btn:
-//				startActivity(new Intent(this, FullScreenVideoActivity.class));
-//				break;
-//			case R.id.draw_btn:
-//				startActivity(new Intent(this, DrawAdSettingActivity.class));
-////				startActivity(new Intent(this, DrawNativeVideoActivity.class));
-//				break;
+			case R.id.full_screen_btn:
+				startActivity(new Intent(this, FullScreenVideoActivity.class));
+				break;
+			case R.id.draw_btn:
+				startActivity(new Intent(this, DrawAdSettingActivity.class));
+//				startActivity(new Intent(this, DrawNativeVideoActivity.class));
+				break;
 		}
 	}
 
