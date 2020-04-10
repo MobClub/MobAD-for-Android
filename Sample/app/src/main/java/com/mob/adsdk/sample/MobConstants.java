@@ -16,7 +16,7 @@ public class MobConstants {
 			banner_id = "1193840871388151810";
 			interstitial_id = "1194135018395746306";
 			native_express_id = "1194135313452449794";
-			native_feed_id = "1194135373342916609";
+			native_feed_id = "1248144815063142401";
 			reward_id = "1194135203918200833";
 			full_video_id = "1194135154777735170";
 			draw_video_id = "1194135106937503745";

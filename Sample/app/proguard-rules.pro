@@ -102,5 +102,8 @@
 -keep class com.ksad.download.** { *;}
 -keep class com.kwai.filedownloader.** { *;}
 
+-keep class com.baidu.mobads.** { *; }
+-keep class com.baidu.mobad.** { *; }
+
 -keep class com.mob.**{*;}
 -keep class cn.fcommon.**{*;}

@@ -93,7 +93,6 @@ public class SplashActivity extends Activity implements SplashAdListener , View.
                     if (needStartDemoList) {
                         SplashActivity.this.startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     }
-                    Toast.makeText(SplashActivity.this, "服务授权后才能正常使用", Toast.LENGTH_SHORT).show();
                     SplashActivity.this.finish();
                 }
             }, 200);

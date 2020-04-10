@@ -45,7 +45,6 @@ android {
 }
 repositories {
     flatDir {
-        dirs '../../../MobAdSDK/libs'
         dirs 'libs'
     }
 }
