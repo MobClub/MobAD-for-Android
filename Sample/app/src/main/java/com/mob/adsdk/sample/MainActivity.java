@@ -2,15 +2,14 @@ package com.mob.adsdk.sample;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mob.adsdk.MobAdSdk;
@@ -23,6 +22,11 @@ import java.util.List;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 	public static final String TAG = "MainActivity";
+	private TextView tvAd;
+	private TextView tvSetting;
+	private LinearLayout ll_ad;
+	private LinearLayout ll_setting;
+	private TextView tvAbout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +39,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		findViewById(R.id.feed_btn).setOnClickListener(this);
 		findViewById(R.id.native_express_ad).setOnClickListener(this);
 		findViewById(R.id.rewardvideo_btn).setOnClickListener(this);
-
-		//此类型暂不开放，详情咨询商务
-		findViewById(R.id.full_screen_btn).setOnClickListener(this);
-		findViewById(R.id.draw_btn).setOnClickListener(this);
+//		findViewById(R.id.full_screen_btn).setOnClickListener(this);
+//		findViewById(R.id.draw_btn).setOnClickListener(this);
+		tvAd = findViewById(R.id.tvAd);
+		tvSetting = findViewById(R.id.tvSetting);
+		ll_ad = findViewById(R.id.ll_ad);
+		ll_setting = findViewById(R.id.ll_setting);
+		tvAd.setOnClickListener(this);
+		tvSetting.setOnClickListener(this);
+		tvAbout = findViewById(R.id.tvAbout);
+		tvAbout.setOnClickListener(this);
 
 		//此处开关由开发者自行决定
 		if (SPUtils.getBoolean(this, SPUtils.PRIVACY_POLICY_KEY, false)) {
@@ -52,28 +62,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	//隐私服务授权弹窗
 	public void privacyDialog() {
-		final AlertDialog.Builder b = new AlertDialog.Builder(this,
-				android.R.style.Theme_Material_Light_Dialog);
-		b.setTitle("服务授权");
-		b.setMessage(Html.fromHtml("《MobTech开发者应用合规指南》： <a href=\"https://mp.weixin.qq.com/s/OCJXcvop16sHpB1GpDTJYQ\">https://mp.weixin.qq.com/s/OCJXcvop16sHpB1GpDTJYQ</a>\n" +
-				" 《MobTech隐私政策》：<a href=\"http://www.mob.com/about/policy\">http://www.mob.com/about/policy</a>"));
-		b.setPositiveButton("同意", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialogInterface, int i) {
-				submitPrivacyGrantResult(true);//同意授权后同步授权信息到MobAdSDK
-			}
-		});
-		b.setNegativeButton("拒绝", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialogInterface, int i) {
-				submitPrivacyGrantResult(false);
-//				finish(); 未同意隐私情况下，应该退出应用，或停止调用MobSDK相关服务接口
-				Toast.makeText(MainActivity.this, "服务授权后才能正常使用", Toast.LENGTH_LONG).show();
-			}
-		});
-
-		b.create();
-		b.show();
+		PrivacyDialog dialog = new PrivacyDialog(this);
+		dialog.setCancelListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						submitPrivacyGrantResult(false);
+						//finish(); 未同意隐私情况下，应该退出应用，或停止调用MobSDK相关服务接口
+						Toast.makeText(MainActivity.this, "服务授权后才能正常使用", Toast.LENGTH_LONG).show();
+					}
+				})
+				.setSubmitListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						submitPrivacyGrantResult(true);//同意授权后同步授权信息到MobAdSDK
+					}
+				}).show();
 	}
 
 	private void submitPrivacyGrantResult(final boolean granted) {
@@ -83,10 +86,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				Log.d(TAG, "隐私协议授权结果提交：成功");
 				if (granted) {
 					checkAndRequestPermission();
-				} else {
-					Toast.makeText(MainActivity.this, "隐私协议授权结果提交：成功", Toast.LENGTH_LONG).show();
+//				} else {
+//					Toast.makeText(MainActivity.this, "隐私协议授权结果提交：成功", Toast.LENGTH_LONG).show();
 				}
-				SPUtils.putBoolean(MainActivity.this, SPUtils.PRIVACY_POLICY_KEY, true);
+				SPUtils.putBoolean(MainActivity.this, SPUtils.PRIVACY_POLICY_KEY, granted);
 			}
 
 			@Override
@@ -120,12 +123,33 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			case R.id.rewardvideo_btn:
 				startActivity(new Intent(this, RewardVideoAdActivity.class));
 				break;
-			case R.id.full_screen_btn://此类型暂不开放，详情咨询商务
-				startActivity(new Intent(this, FullScreenVideoActivity.class));
+//			case R.id.full_screen_btn:
+//				startActivity(new Intent(this, FullScreenVideoActivity.class));
+//				break;
+//			case R.id.draw_btn:
+//				startActivity(new Intent(this, DrawAdSettingActivity.class));
+//				break;
+			case R.id.tvAd:
+				checkAd(true);
 				break;
-			case R.id.draw_btn://此类型暂不开放，详情咨询商务
-				startActivity(new Intent(this, DrawAdSettingActivity.class));
+			case R.id.tvSetting:
+				checkAd(false);
 				break;
+			case R.id.tvAbout:
+				startActivity(new Intent(this, AboutActivity.class));
+				break;
+		}
+	}
+
+	private void checkAd(boolean isAd) {
+		tvAd.setEnabled(!isAd);
+		tvSetting.setEnabled(isAd);
+		if (isAd) {
+			ll_ad.setVisibility(View.VISIBLE);
+			ll_setting.setVisibility(View.GONE);
+		} else {
+			ll_ad.setVisibility(View.GONE);
+			ll_setting.setVisibility(View.VISIBLE);
 		}
 	}
 

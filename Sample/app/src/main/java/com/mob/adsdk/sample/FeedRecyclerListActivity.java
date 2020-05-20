@@ -33,7 +33,7 @@ import java.util.TreeSet;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
-public class NativeRecyclerListActivity extends Activity implements NativeAdListener {
+public class FeedRecyclerListActivity extends Activity implements NativeAdListener {
 	private static final String TAG = "NativeRecyclerListActiv";
 	private NativeAdLoader nativeAdLoader;
 
@@ -48,6 +48,12 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 		}
 		nativeAdLoader = new NativeAdLoader(this, posId, this,new FrameLayout.LayoutParams(0,0));//信息流
 		nativeAdLoader.loadAd();
+		findViewById(R.id.ivLeft).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	}
 
 	private CustomAdapter mAdapter;
@@ -59,7 +65,7 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 		manager.setOrientation(LinearLayoutManager.VERTICAL);
 		recyclerView.setLayoutManager(manager);
 		List<NormalItem> list = new ArrayList<>();
-		for (int i = 0; i < 10; ++i) {
+		for (int i = 0; i < 3; ++i) {
 			list.add(new NormalItem("No." + i + " Init Data"));
 		}
 		mAdapter = new CustomAdapter(this, list);
@@ -70,7 +76,7 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 
 				if (!mIsLoading && newState == SCROLL_STATE_IDLE && !recyclerView.canScrollVertically(1)) {
 					mIsLoading = true;
-					NativeRecyclerListActivity.this.nativeAdLoader.loadAd();
+					FeedRecyclerListActivity.this.nativeAdLoader.loadAd();
 				}
 
 			}
@@ -248,7 +254,7 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 
 				}
 			}
-			ad.bindAdToView(NativeRecyclerListActivity.this, holder.container,
+			ad.bindAdToView(FeedRecyclerListActivity.this, holder.container,
 					clickableViews, new AdInteractionListener() {
 						@Override
 						public void onAdClicked() {
@@ -383,9 +389,9 @@ public class NativeRecyclerListActivity extends Activity implements NativeAdList
 		}
 	}
 
-	private static final int ITEM_COUNT = 30;
-	private static final int FIRST_AD_POSITION = 5;
-	private static final int AD_DISTANCE = 10;
+	private static final int ITEM_COUNT = 15;
+	private static final int FIRST_AD_POSITION = 1;
+	private static final int AD_DISTANCE = 5;
 
 	private class H extends Handler {
 		@Override

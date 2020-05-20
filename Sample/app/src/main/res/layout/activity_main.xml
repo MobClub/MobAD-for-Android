@@ -4,63 +4,231 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#FAFAFA"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/splash_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="开屏广告" />
 
-    <Button
-        android:id="@+id/banner_btn"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="Banner广告" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/ll_ad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:text="广告"
+                    android:background="#fff"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/splash_btn"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="180dp"
+                        android:text="开屏"
+                        android:paddingTop="30dp"
+                        android:paddingBottom="40dp"
+                        android:gravity="center"
+                        android:background="@drawable/btn_press_bg"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_press_bg"
+                        android:drawableTop="@drawable/splash_press_bg"/>
 
-    <Button
-        android:id="@+id/interstitial_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="插屏广告" />
+                    <TextView
+                        android:id="@+id/interstitial_btn"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="180dp"
+                        android:paddingTop="30dp"
+                        android:paddingBottom="40dp"
+                        android:text="插屏"
+                        android:gravity="center"
+                        android:background="@drawable/btn_press_bg"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_press_bg"
+                        android:drawableTop="@drawable/inter_press_bg"/>
+                </LinearLayout>
 
-    <Button
-        android:id="@+id/native_express_ad"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="原生模板" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/banner_btn"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="180dp"
+                        android:text="Banner"
+                        android:paddingTop="30dp"
+                        android:paddingBottom="40dp"
+                        android:gravity="center"
+                        android:background="@drawable/btn_press_bg"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_press_bg"
+                        android:drawableTop="@drawable/banner_press_bg"/>
 
-    <Button
-        android:id="@+id/feed_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="原生自渲染(RecyclerView)" />
+                    <TextView
+                        android:id="@+id/native_express_ad"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="180dp"
+                        android:paddingTop="30dp"
+                        android:paddingBottom="40dp"
+                        android:text="原生"
+                        android:gravity="center"
+                        android:background="@drawable/btn_press_bg"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_press_bg"
+                        android:drawableTop="@drawable/native_press_bg"/>
+                </LinearLayout>
 
-    <Button
-        android:id="@+id/rewardvideo_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="激励视频广告" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/rewardvideo_btn"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="180dp"
+                        android:text="激励视频"
+                        android:paddingTop="30dp"
+                        android:paddingBottom="40dp"
+                        android:gravity="center"
+                        android:background="@drawable/btn_press_bg"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_press_bg"
+                        android:drawableTop="@drawable/reward_press_bg"/>
 
-    <Button
-        android:id="@+id/full_screen_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="全屏video" />
+                    <TextView
+                        android:id="@+id/feed_btn"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="180dp"
+                        android:paddingTop="30dp"
+                        android:paddingBottom="40dp"
+                        android:text="自渲染"
+                        android:gravity="center"
+                        android:background="@drawable/btn_press_bg"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_press_bg"
+                        android:drawableTop="@drawable/feed_press_bg"/>
+                </LinearLayout>
 
-    <Button
-        android:id="@+id/draw_btn"
+                <!--<Button
+                    android:id="@+id/full_screen_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="全屏video" />
+
+                <Button
+                    android:id="@+id/draw_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Draw" />-->
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:text="设置"
+                    android:background="#fff"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:layout_width="116dp"
+                    android:layout_height="116dp"
+                    android:layout_marginTop="37dp"
+                    android:layout_marginBottom="47dp"
+                    android:scaleType="centerInside"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/avatar_default"/>
+
+                <TextView
+                    android:id="@+id/tvAbout"
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:text="关于MobAD"
+                    android:paddingLeft="20dp"
+                    android:paddingBottom="2dp"
+                    android:paddingRight="20dp"
+                    android:drawableRight="@mipmap/icon_arrow"
+                    android:textSize="16sp"
+                    android:drawablePadding="10dp"
+                    android:textColor="#263238"
+                    android:drawableLeft="@mipmap/icon_details"
+                    android:background="@mipmap/white_bg"/>
+            </LinearLayout>
+        </FrameLayout>
+    </ScrollView>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="Draw" />
+        android:layout_height="50dp"
+        android:background="#fff"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvAd"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="4dp"
+            android:background="@null"
+            android:textSize="12sp"
+            android:textColor="@color/tab_ebable_bg"
+            android:drawableTop="@drawable/tab_ad_sel_bg"
+            android:enabled="false"
+            android:text="广告"/>
+        <TextView
+            android:id="@+id/tvSetting"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@null"
+            android:padding="4dp"
+            android:textSize="12sp"
+            android:enabled="true"
+            android:textColor="@color/tab_ebable_bg"
+            android:drawableTop="@drawable/tab_setting_sel_bg"
+            android:text="设置"/>
+    </LinearLayout>
 
 </LinearLayout>

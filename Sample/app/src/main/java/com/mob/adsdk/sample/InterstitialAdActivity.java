@@ -28,6 +28,8 @@ public class InterstitialAdActivity extends Activity implements View.OnClickList
 		findViewById(R.id.showInterstitailAD).setOnClickListener(this);
 		findViewById(R.id.loadFullVideoAD).setOnClickListener(this);
 		findViewById(R.id.showFullVideoAD).setOnClickListener(this);
+		findViewById(R.id.iv_pos_del).setOnClickListener(this);
+		findViewById(R.id.ivLeft).setOnClickListener(this);
 
 
 		etPosId = findViewById(R.id.et_pos_id);
@@ -47,19 +49,37 @@ public class InterstitialAdActivity extends Activity implements View.OnClickList
 
 		switch (v.getId()) {
 			case R.id.showInterstitailAD:
-				initLoader(posId);
-				interstitialAD.loadAd();
+				if(posIdAvailable()) {
+					initLoader(posId);
+					interstitialAD.loadAd();
+				}
 				break;
 			case R.id.loadFullVideoAD:
-				initLoader(posId);
-				interstitialAD.loadFullScreenAD();
+				if(posIdAvailable()) {
+					initLoader(posId);
+					interstitialAD.loadFullScreenAD();
+				}
 				break;
 			case R.id.showFullVideoAD:
-				interstitialAD.showFullScreenAD(this);
-				findViewById(R.id.showFullVideoAD).setEnabled(false);
-				findViewById(R.id.showFullVideoAD).setBackgroundResource(R.drawable.enable_bg);
+				if(posIdAvailable()) {
+					interstitialAD.showFullScreenAD(this);
+				}
+				break;
+			case R.id.iv_pos_del:
+				etPosId.setText("");
+				break;
+			case R.id.ivLeft:
+				finish();
 				break;
 		}
+	}
+
+	private boolean posIdAvailable() {
+		if (TextUtils.isEmpty(etPosId.getText().toString())) {
+			Toast.makeText(this, "广告位ID不能为空",Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		return true;
 	}
 
 	private void initLoader(String posId) {
@@ -105,8 +125,6 @@ public class InterstitialAdActivity extends Activity implements View.OnClickList
 	@Override
 	public void onAdLoaded(InterstitialAd interstitialAd) {
 		Log.d(TAG, "onAdLoaded: ");
-		findViewById(R.id.showFullVideoAD).setEnabled(true);
-		findViewById(R.id.showFullVideoAD).setBackgroundResource(R.drawable.btn_bg);
 		Toast.makeText(this, "广告加载成功",Toast.LENGTH_LONG).show();
 		interstitialAd.setInteractionListener(new InteractionListener() {
 			@Override

@@ -1,79 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="#FAFAFA"
     android:layout_height="match_parent"
     tools:context=".SplashSettingActivity">
 
-    <TextView
-        android:id="@+id/tv_ad_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="广告位id"
-        app:layout_constraintBottom_toBottomOf="@+id/et_pos_id"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/et_pos_id" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:background="#fff"
+        android:paddingRight="40dp"
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/et_pos_id"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_ad_id"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/ivLeft"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="10dp"
+            android:layout_marginLeft="5dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/back"/>
 
-    <Button
-        android:id="@+id/btn_preload"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="预加载广告"
-        android:layout_margin="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_pos_id" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#263238"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text="开屏"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:background="@drawable/white_bg"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_ad_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#263238"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="-3dp"
+            android:layout_marginLeft="13dp"
+            android:layout_gravity="center_vertical"
+            android:textSize="15sp"
+            android:text="广告位ID:" />
 
-    <Button
-        android:id="@+id/btn_fetch_only"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="只拉取不展示"
-        android:layout_margin="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_preload" />
+        <EditText
+            android:id="@+id/et_pos_id"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="-3dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:textSize="15sp"
+            android:textColor="#263238"
+            android:background="@null" />
+        <ImageView
+            android:id="@+id/iv_pos_del"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="-3dp"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/icon_delete"/>
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_jumptosplash"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="打开开屏页"
-        android:layout_margin="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_fetch_only" />
+        android:background="@drawable/white_bg"
+        android:orientation="vertical"
+        android:paddingLeft="13dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:paddingRight="13dp">
 
-    <Button
-        android:id="@+id/btn_jumptosplashforskip"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="打开自定义跳过按钮开屏页"
-        android:layout_margin="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_jumptosplash" />
+        <TextView
+            android:id="@+id/btn_preload"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="-10dp"
+            android:drawableLeft="@mipmap/icon_load"
+            android:drawableRight="@mipmap/icon_arrow"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="预加载广告"
+            android:textColor="#263238"
+            android:textSize="15sp" />
 
-    <Button
-        android:id="@+id/btn_jumptosplashforbottom"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="有底部的开屏页"
-        android:layout_margin="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_jumptosplashforskip" />
+        <TextView
+            android:id="@+id/btn_fetch_only"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableLeft="@mipmap/icon_load"
+            android:drawableRight="@mipmap/icon_arrow"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="只拉取不展示"
+            android:textColor="#263238"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/btn_jumptosplash"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableLeft="@mipmap/icon_default_1"
+            android:drawableRight="@mipmap/icon_arrow"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="打开开屏页"
+            android:textColor="#263238"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/btn_jumptosplashforskip"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableLeft="@mipmap/icon_default_btn"
+            android:drawableRight="@mipmap/icon_arrow"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="打开自定义跳过按钮开屏页"
+            android:textColor="#263238"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/btn_jumptosplashforbottom"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableLeft="@mipmap/icon_default_1"
+            android:drawableRight="@mipmap/icon_arrow"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginBottom="-10dp"
+            android:text="有底部的开屏页"
+            android:textColor="#263238"
+            android:textSize="15sp" />
+    </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

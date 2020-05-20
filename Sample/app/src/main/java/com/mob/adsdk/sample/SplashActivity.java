@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mob.adsdk.sample.utils.SPUtils;
+import com.mob.adsdk.service.DownAppPolicy;
 import com.mob.adsdk.splash.SplashAd;
 import com.mob.adsdk.splash.SplashAdListener;
 import com.mob.adsdk.splash.SplashAdLoader;
@@ -47,6 +48,7 @@ public class SplashActivity extends Activity implements SplashAdListener , View.
     private SplashAdLoader splashAdLoader;
     private TextView tv;
     private ViewGroup btnGroup;
+    private boolean customSkip;
 
 
     @Override
@@ -66,7 +68,7 @@ public class SplashActivity extends Activity implements SplashAdListener , View.
         tvSkip = findViewById(R.id.tv_skip);
         if (getIntent().getExtras()!=null && getIntent().getExtras().getString("posId") != null){
             String posId = getIntent().getExtras().getString("posId");
-            boolean customSkip = getIntent().getExtras().getBoolean("customSkip");
+            customSkip = getIntent().getExtras().getBoolean("customSkip");
             boolean customBottom = getIntent().getExtras().getBoolean("customBottom");
             fetchOnly = getIntent().getExtras().getBoolean("fetchOnly",false);
             if (customBottom){
@@ -75,12 +77,13 @@ public class SplashActivity extends Activity implements SplashAdListener , View.
             if (customSkip) {
                 fetchSplashAD(this, adContainer, tvSkip, posId, this, 3000);
             } else {
-                tvSkip.setVisibility(View.GONE);
                 fetchSplashAD(this, adContainer, null, posId, this, 3000);
+            }
+            if (fetchOnly) {
+                findViewById(R.id.cl_root).setBackground(null);
             }
         } else {
             needStartDemoList = true;
-            tvSkip.setVisibility(View.GONE);
             fetchSplashAD(this, adContainer, null, MobConstants.splash_id, this, 3000);
         }
     }
@@ -103,7 +106,7 @@ public class SplashActivity extends Activity implements SplashAdListener , View.
         if (fetchOnly){
             tv.setText("广告正在请求");
             splashAdLoader.fetchOnly();
-            if (btnGroup!=null){
+            if (btnGroup!=null) {
                 btnGroup.setVisibility(View.VISIBLE);
             }
         }else {
@@ -113,6 +116,9 @@ public class SplashActivity extends Activity implements SplashAdListener , View.
 
     @Override
     public void onLoaded(SplashAd splashAd) {
+        if (customSkip) {
+            tvSkip.setVisibility(View.VISIBLE);
+        }
         this.splashAd = splashAd;
         tv.setText("广告已缓存");
         splashAd.setInteractionListener(new SplashInteractionListener() {

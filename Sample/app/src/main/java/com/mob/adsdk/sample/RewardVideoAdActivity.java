@@ -4,10 +4,11 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mob.adsdk.reward.MobRewardVideo;
@@ -23,8 +24,8 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
     private static final String TAG = "RewardVideoAdActivity";
 
     private RewardVideoAdLoader rewardVideoAdLoader;
-    private EditText editText;
-    private Button btnChangeOrientation;
+    private EditText etPosId;
+    private TextView btnChangeOrientation;
     private int currentOrientation;
     private boolean isAllowShow = false;
     private MobRewardVideo rewardVideo;
@@ -33,15 +34,15 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rewardvideo_ad);
-        Button rewardAd = findViewById(R.id.loadRewardAd);
-        Button showAD = findViewById(R.id.showRewardAd);
-        rewardAd.setOnClickListener(this);
-        showAD.setOnClickListener(this);
-        editText = findViewById(R.id.et_pos_id);
-        editText.setText(MobConstants.reward_id);
+        findViewById(R.id.loadRewardAd).setOnClickListener(this);
+        findViewById(R.id.showRewardAd).setOnClickListener(this);
+        etPosId = findViewById(R.id.et_pos_id);
+        etPosId.setText(MobConstants.reward_id);
         btnChangeOrientation = findViewById(R.id.changeOrientation);
         btnChangeOrientation.setOnClickListener(this);
         currentOrientation = getResources().getConfiguration().orientation;
+        findViewById(R.id.iv_pos_del).setOnClickListener(this);
+        findViewById(R.id.ivLeft).setOnClickListener(this);
     }
 
     @Override
@@ -59,21 +60,23 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
                 }
                 break;
             case R.id.loadRewardAd:
-				String posID = MobConstants.reward_id;
-				if (!editText.getText().toString().isEmpty()){
-					posID = editText.getText().toString();
-				}
-                RewardOption rewardOption = new RewardOption.Builder(this)
-                        .setOrientation(currentOrientation)
-                        .setSkipLongTime(true)
-                        .setUserId("userid")
-                        .setRewardName("金币")//奖励的名称
-                        .setRewardAmount(3).build(); //奖励的数量
-                if (rewardVideoAdLoader == null) {
-                    rewardVideoAdLoader = new RewardVideoAdLoader(this, posID, this, rewardOption);
+				if (posIdAvailable()) {
+                    String posID = MobConstants.reward_id;
+                    if (!etPosId.getText().toString().isEmpty()){
+                        posID = etPosId.getText().toString();
+                    }
+                    RewardOption rewardOption = new RewardOption.Builder(this)
+                            .setOrientation(currentOrientation)
+                            .setSkipLongTime(true)
+                            .setUserId("userid")
+                            .setRewardName("金币")//奖励的名称
+                            .setRewardAmount(3).build(); //奖励的数量
+                    if (rewardVideoAdLoader == null) {
+                        rewardVideoAdLoader = new RewardVideoAdLoader(this, posID, this, rewardOption);
+                    }
+                    rewardVideoAdLoader.loadAd();
+                    Toast.makeText(this,"广告开始加载",Toast.LENGTH_LONG).show();
                 }
-                rewardVideoAdLoader.loadAd();
-                Toast.makeText(this,"广告开始加载",Toast.LENGTH_LONG).show();
                 break;
             case R.id.showRewardAd:
                 if (rewardVideo!=null){
@@ -88,7 +91,21 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
                     }
                 }
                 break;
+            case R.id.iv_pos_del:
+                etPosId.setText("");
+                break;
+            case R.id.ivLeft:
+                finish();
+                break;
         }
+    }
+
+    private boolean posIdAvailable() {
+        if (TextUtils.isEmpty(etPosId.getText().toString())) {
+            Toast.makeText(this, "广告位ID不能为空",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     @Override

@@ -2,10 +2,10 @@ package com.mob.adsdk.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,6 +23,7 @@ public class BannerAdActivity extends Activity implements View.OnClickListener, 
     private EditText etPosId;
     private boolean loading;
     private ViewGroup adContainer;
+    private EditText etRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +32,22 @@ public class BannerAdActivity extends Activity implements View.OnClickListener, 
         etPosId = findViewById(R.id.et_pos_id);
         etPosId.setText(MobConstants.banner_id);
         adContainer = findViewById(R.id.container);
+        etRefresh = findViewById(R.id.et_refresh);
 
-        Button bannerAD = findViewById(R.id.loadAd);
-        bannerAD.setOnClickListener(this);
+        findViewById(R.id.loadAd).setOnClickListener(this);
+        findViewById(R.id.iv_pos_del).setOnClickListener(this);
+        findViewById(R.id.ivLeft).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loadAd:
+                if (TextUtils.isEmpty(etPosId.getText().toString())) {
+                    Toast.makeText(this, "广告位ID不能为空",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String etRefreshTimes = etRefresh.getText().toString();
                 String posId = etPosId.getText().toString();
                 if (!posId.isEmpty()){
                     if (this.bannerView != null) { //加载之前先销毁之前的视图
@@ -52,10 +60,20 @@ public class BannerAdActivity extends Activity implements View.OnClickListener, 
                     }
                     loading = true;
                     bannerView = new BannerAdLoader(this,adContainer,new MobADSize(MobADSize.FULL_WIDTH, MobADSize.AUTO_HEIGHT), posId, this);
+
+                    if (!TextUtils.isEmpty(etRefreshTimes)) {
+                        bannerView.setRefresh(Integer.valueOf(etRefreshTimes));
+                    }
                     bannerView.loadAd();
                 }else {
                     Toast.makeText(this, "posId 为空", Toast.LENGTH_LONG).show();
                 }
+                break;
+            case R.id.iv_pos_del:
+                etPosId.setText("");
+                break;
+            case R.id.ivLeft:
+                finish();
                 break;
         }
     }
