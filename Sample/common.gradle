@@ -1,14 +1,34 @@
 apply plugin: 'com.mob.sdk'
 
 MobSDK {
+//    autoInit false
     appKey "2d7ce93a26944"
     appSecret "234b0028a97be15e1650550f338c4a50"
+//    appKey "2e1ca944fa298"
+//    appSecret "96e6a4141151f0898b6d6eb627b20f3d"
     MobAdSDK {
+        version '2.1.6'
         devInfo {
-            GDT {}
+            GDT {
+                version '4.251.1121'
+            }
             CSJ {}
 			KS {}
 			BD {}
+            GG {
+                appId "ca-app-pub-3940256099942544~3347511713"
+            }
         }
     }
+}
+configurations {
+//    all*.exclude group: 'com.mob', module: 'MobAdSDK'
+//    all*.exclude group: 'com.mob', module: 'MobCommons'
+//    all*.exclude group: 'com.mob', module: 'MobTools'
+//    all*.exclude group: 'com.mob.ad.plugins.channel', module: 'Channel-Five'
+//    all*.exclude group: 'com.mob.ad.plugins.channel', module: 'Channel-Four'
+//    all*.exclude group: 'com.mob.ad.plugins.channel', module: 'Channel-Six'
+//    all*.exclude group: 'com.mob.ad.plugins.channel', module: 'Channel-Thirteen'
+//    all*.exclude group: 'com.mob.ad.plugins', module: 'GDT'
+//    all*.exclude group: 'com.mob.ad.plugins', module: 'CSJ'
 }

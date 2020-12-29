@@ -60,7 +60,7 @@
                 android:layout_alignParentRight="true"
                 android:textSize="15sp"
                 android:textColor="#546E7A"
-                android:text="v2.1.4"/>
+                android:text="v2.1.8"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -80,7 +80,7 @@
                 android:layout_alignParentBottom="true"
                 android:textSize="15sp"
                 android:textColor="#546E7A"
-                android:text="2020年4月23日"/>
+                android:text="2020年11月13日"/>
         </RelativeLayout>
 
     </LinearLayout>
@@ -110,7 +110,7 @@
             android:layout_marginTop="20dp"
             android:lineSpacingExtra="8dp"
             android:textColor="#546E7A"
-            android:text="1.banner支持轮播;\n2.修复已知bug;"/>
+            android:text="1.修复已知bug;"/>
 
     </LinearLayout>
 

@@ -5,8 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,8 +17,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.mob.adsdk.nativ.MobAdPatternType;
+import com.mob.adsdk.nativ.NativeOption;
 import com.mob.adsdk.nativ.feeds.AdInteractionListener;
 import com.mob.adsdk.nativ.feeds.AdMediaListener;
 import com.mob.adsdk.nativ.feeds.MobNativeAd;
@@ -31,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
-import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
+import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 public class FeedRecyclerListActivity extends Activity implements NativeAdListener {
 	private static final String TAG = "NativeRecyclerListActiv";
@@ -47,6 +49,7 @@ public class FeedRecyclerListActivity extends Activity implements NativeAdListen
 			posId = getIntent().getExtras().getString("posId");
 		}
 		nativeAdLoader = new NativeAdLoader(this, posId, this,new FrameLayout.LayoutParams(0,0));//信息流
+		nativeAdLoader.setVideoPlayPolicy(NativeOption.VideoPlayPolicy.AUTO);
 		nativeAdLoader.loadAd();
 		findViewById(R.id.ivLeft).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -208,11 +211,6 @@ public class FeedRecyclerListActivity extends Activity implements NativeAdListen
 
 		private void initItemView(int position, final CustomHolder holder) {
 			final MobNativeAd ad = (MobNativeAd) mData.get(position);
-			if (position%2 == 0) {
-				ad.setVideoMute(true);
-			}else {
-				ad.setVideoMute(false);
-			}
 			String iconUrl = null;
 			if (!TextUtils.isEmpty(ad.getIconUrl())) {
 				iconUrl = ad.getIconUrl();
@@ -264,10 +262,12 @@ public class FeedRecyclerListActivity extends Activity implements NativeAdListen
 					});
 
 
-			String buttonText;
+			String buttonText = "";
 			if (ad.getInteractionType() == 0) {
 				buttonText = "浏览";
-			} else {
+			} else if (ad.getInteractionType() == -1) {
+				buttonText = ad.getActionText();
+			} else{
 				buttonText = "下载";
 			}
 			holder.download.setText(buttonText);
@@ -285,7 +285,10 @@ public class FeedRecyclerListActivity extends Activity implements NativeAdListen
 		private void setAdListener(final CustomHolder holder, final MobNativeAd ad) {
 			// 视频广告
 			if (ad.getAdPatternType() == MobAdPatternType.VIDEO) {
-				ad.bindMediaView(holder.mediaView, new AdMediaListener() {
+				NativeOption.Builder builder = new NativeOption.Builder();
+				builder.setAutoPlayMuted(false) //视频是否静音
+						.setEnableUserControl(true); //点击视频是否可暂停
+				ad.bindMediaView(holder.mediaView, builder.build(), new AdMediaListener() {
 
 					@Override
 					public void onVideoLoaded() {
@@ -294,6 +297,7 @@ public class FeedRecyclerListActivity extends Activity implements NativeAdListen
 
 					@Override
 					public void onVideoStart() {
+//						ad.setVideoMute(true);
 						Log.d(TAG, "onVideoStart: 视频开始播放");
 					}
 

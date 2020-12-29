@@ -8,8 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,6 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.VideoView;
+
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.dingmouren.layoutmanagergroup.viewpager.OnViewPagerListener;
 import com.dingmouren.layoutmanagergroup.viewpager.ViewPagerLayoutManager;
@@ -52,7 +53,7 @@ public class DrawNativeVideoActivity extends Activity implements DrawAdListener 
     private int[] imgs = {R.mipmap.video10, R.mipmap.video11, R.mipmap.video12, R.mipmap.video13, R.mipmap.video14};
     private int[] videos = {R.raw.video10, R.raw.video11, R.raw.video12, R.raw.video13, R.raw.video14};
     private Context mContext;
-    private List<Item> datas = new ArrayList<>();
+    private ArrayList<Item> datas = new ArrayList<>();
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
@@ -275,9 +276,9 @@ public class DrawNativeVideoActivity extends Activity implements DrawAdListener 
     }
 
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-        List<Item> datas;
+        ArrayList<Item> datas;
 
-        public MyAdapter(List<Item> datas) {
+        public MyAdapter(ArrayList<Item> datas) {
             this.datas = datas;
         }
 

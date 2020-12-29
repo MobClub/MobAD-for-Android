@@ -1,10 +1,11 @@
 package com.mob.adsdk.sample;
 
-import android.app.Application;
+
+import androidx.multidex.MultiDexApplication;
 
 import com.mob.adsdk.MobAdSdk;
 
-public class MyApplication extends Application {
+public class MyApplication extends MultiDexApplication {
 
 	@Override
 	public void onCreate() {

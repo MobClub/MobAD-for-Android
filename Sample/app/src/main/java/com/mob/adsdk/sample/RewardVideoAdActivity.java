@@ -124,6 +124,7 @@ public class RewardVideoAdActivity extends Activity implements View.OnClickListe
         }else {
             Log.d(TAG, "onAdLoad: 广告加载成功");
         }
+        Toast.makeText(this, "onAdLoad: 广告加载成功 ", Toast.LENGTH_LONG).show();
     }
 
     @Override
