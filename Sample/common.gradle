@@ -6,12 +6,10 @@ MobSDK {
     appSecret "234b0028a97be15e1650550f338c4a50"
 //    appKey "2e1ca944fa298"
 //    appSecret "96e6a4141151f0898b6d6eb627b20f3d"
+//    fp true
     MobAdSDK {
-        version '2.1.6'
         devInfo {
-            GDT {
-                version '4.251.1121'
-            }
+            GDT {}
             CSJ {}
 			KS {}
 			BD {}
