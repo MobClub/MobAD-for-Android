@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
-
+/**
+ * DrawAd类型暂不开放支持，详情请咨询商务。
+ **/
 public class DrawAdSettingActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "DrawAdSettingActivity";
 
@@ -17,7 +19,7 @@ public class DrawAdSettingActivity extends Activity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed_ad_setting);
-        Button btn = findViewById(R.id.loadAd);
+        TextView btn = findViewById(R.id.loadAd);
         etPosId = findViewById(R.id.et_pos_id);
         etPosId.setText(MobConstants.draw_video_id);
         btn.setText("打开Draw广告");

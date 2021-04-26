@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    android:orientation="vertical"
+    tools:context=".InterstitialAdActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#fff"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingRight="40dp">
+
+        <ImageView
+            android:id="@+id/ivLeft"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/back" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="非标广告"
+            android:textColor="#263238"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/white_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="-3dp"
+            android:paddingLeft="10dp"
+            android:text="横幅广告位ID:"
+            android:textColor="#263238"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/etBanner"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-3dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:textColor="#263238"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/ivBannerDel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="-3dp"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/icon_delete" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="-8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/white_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="-3dp"
+            android:paddingLeft="10dp"
+            android:text="插屏广告位ID:"
+            android:textColor="#263238"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/etInterId"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-3dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:textColor="#263238"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/ivInterDel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="-3dp"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/icon_delete" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="-8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/white_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="-3dp"
+            android:paddingLeft="10dp"
+            android:text="浮窗广告位ID:"
+            android:textColor="#263238"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/etFloatId"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-3dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:textColor="#263238"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/ivFloatDel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="-3dp"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/icon_delete" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/white_bg"
+        android:orientation="vertical"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp">
+
+        <TextView
+            android:id="@+id/showBannerAd"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="-10dp"
+            android:drawableLeft="@mipmap/icon_default_1"
+            android:drawableRight="@mipmap/icon_arrow"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="加载并展示Banner广告"
+            android:textColor="#263238"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/showInterstitailAD"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableLeft="@mipmap/icon_load"
+            android:drawableRight="@mipmap/icon_arrow"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="加载并展示插屏广告"
+            android:textColor="#263238"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/showFFrameAD"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="-10dp"
+            android:drawableLeft="@mipmap/icon_default_1"
+            android:drawableRight="@mipmap/icon_arrow"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="加载并展示浮框广告"
+            android:textColor="#263238"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

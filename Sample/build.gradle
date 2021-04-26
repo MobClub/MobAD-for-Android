@@ -17,6 +17,9 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            url 'http://10.18.97.56:8080/job/iMaven/ws/android'
+        }
         maven { url 'https://maven.fabric.io/public' }
 
     }

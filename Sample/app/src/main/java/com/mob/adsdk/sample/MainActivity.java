@@ -39,6 +39,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		findViewById(R.id.feed_btn).setOnClickListener(this);
 		findViewById(R.id.native_express_ad).setOnClickListener(this);
 		findViewById(R.id.rewardvideo_btn).setOnClickListener(this);
+		findViewById(R.id.ns_btn).setOnClickListener(this);
 //		findViewById(R.id.full_screen_btn).setOnClickListener(this);
 //		findViewById(R.id.draw_btn).setOnClickListener(this);
 		tvAd = findViewById(R.id.tvAd);
@@ -104,6 +105,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+			case R.id.ns_btn:
+				startActivity(new Intent(this, NSAdActivity.class));
+				break;
 			case R.id.splash_btn:
 				startActivity(new Intent(this, SplashSettingActivity.class));
 				break;

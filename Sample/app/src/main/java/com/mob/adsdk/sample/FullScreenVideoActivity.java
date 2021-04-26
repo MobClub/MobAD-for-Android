@@ -9,7 +9,9 @@ import android.widget.Toast;
 import com.mob.adsdk.fullscreen.FullScreenAd;
 import com.mob.adsdk.fullscreen.FullScreenAdListener;
 import com.mob.adsdk.fullscreen.FullScreenAdLoader;
-
+/**
+ * 全屏广告类型暂不开放支持，详情请咨询商务。
+ **/
 public class FullScreenVideoActivity extends Activity implements View.OnClickListener, FullScreenAdListener {
 
     private FullScreenAd fullScreenAd;
